@@ -27,19 +27,24 @@ router.post('/Xq',function(req,res){
 })
 router.post('/upscases',function(req,res){
 	var id=req.body["id"]
-	var title1=req.body["title1"]
+	var title=req.body["title"]
+	var content=req.body["content"]
 	res.header("Access-Control-Allow-Origin", "*");
-pool.query(`update News set  title="${title}" where id=${id}`, function(err, rows, fields) {
-		if (err) throw err;
-	  	res.send("修改成功")
+pool.query(`update News set  title="${title}",content="${content}" where id=${id}`, function(err, rows, fields) {
+		pool.query('select * from News',function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
 	});
 })
 router.post('/dele',function(req,res){
 	var id=req.body["id"]
 	res.header("Access-Control-Allow-Origin", "*");
 	pool.query(`delete from News where id=${id}`, function(err, rows, fields) {
-		if (err) throw err;
-	  	res.send("删除成功")
+		pool.query('select * from News',function(err,rows){
+		if(err) throw err;
+		res.send(rows);
+	})
 	});
 })
 
